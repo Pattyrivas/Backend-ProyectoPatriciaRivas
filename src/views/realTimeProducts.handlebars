@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos en Tiempo Real</title>
+</head>
+<body>
+    <h1>Productos en Tiempo Real</h1>
+    <form id="productForm">
+        <input type="text" id="title" placeholder="Title" required>
+        <input type="text" id="description" placeholder="Description" required>
+        <input type="text" id="code" placeholder="Code" required>
+        <input type="number" id="price" placeholder="Price" required>
+        <input type="number" id="stock" placeholder="Stock" required>
+        <input type="text" id="category" placeholder="Category" required>
+        <button type="submit">Add Product</button>
+    </form>
+    <ul id="productList">
+        <!-- Productos se mostrarán aquí -->
+    </ul>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        document.getElementById('productForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newProduct = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                code: document.getElementById('code').value,
+                price: parseFloat(document.getElementById('price').value),
+                stock: parseInt(document.getElementById('stock').value),
+                category: document.getElementById('category').value
+            };
+            socket.emit('newProduct', newProduct);
+        });
+        socket.on('updateProducts', (products) => {
+            const list = document.getElementById('productList');
+            list.innerHTML = '';
+            products.forEach(product => {
+                const li = document.createElement('li');
+                li.textContent = `${product.title} - ${product.price}`;
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = () => {
+                    socket.emit('deleteProduct', product.id);
+                };
+                li.appendChild(deleteButton);
+                list.appendChild(li);
+            });
+        });
+    </script>
+</body>
+</html>

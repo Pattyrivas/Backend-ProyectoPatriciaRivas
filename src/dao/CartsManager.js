@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import ProductsManager from './ProductsManager.js'; 
+import { v4 as uuidv4 } from 'uuid'
 
 const cartsFilePath = path.resolve('src/data/cart.json');
 

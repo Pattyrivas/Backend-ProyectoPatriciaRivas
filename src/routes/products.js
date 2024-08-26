@@ -40,6 +40,8 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: 'All fields are required' });
         }
         const addedProduct = await ProductsManager.addProduct(newProduct);
+
+        req.io.emit('updateProducts', await ProductsManager.getProducts()); // Emite la actualización de productos
         res.status(201).json(addedProduct);
     } catch (error) {
         res.status(500).json({ error: 'Error adding product' });
@@ -76,14 +78,12 @@ router.delete('/:pid', async (req, res) => {
         const productId = req.params.pid;
         const result = await ProductsManager.deleteProduct(productId);
         if (result === 0) {
-            // Producto no encontrado
             return res.status(404).json({ error: 'Product not found' });
         }
 
+        req.io.emit('updateProducts', await ProductsManager.getProducts()); // Emite la actualización de productos
         res.status(204).end();
     } catch (error) {
-        
-        console.error('Error deleting product:', error); 
         res.status(500).json({ error: 'Error deleting product' });
     }
 });
