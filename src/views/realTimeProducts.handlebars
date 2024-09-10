@@ -22,6 +22,11 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
+
+        // Solicitar la lista inicial de productos al cargar la página
+        socket.emit('requestInitialProducts');
+
+        // Agregar un producto
         document.getElementById('productForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const newProduct = {
@@ -34,6 +39,8 @@
             };
             socket.emit('newProduct', newProduct);
         });
+
+        // Actualizar la lista de productos cuando se recibe una actualización
         socket.on('updateProducts', (products) => {
             const list = document.getElementById('productList');
             list.innerHTML = '';

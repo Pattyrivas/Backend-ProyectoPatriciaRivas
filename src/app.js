@@ -9,32 +9,58 @@ import ProductsManager from './dao/ProductsManager.js';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
-
 const app = express();
 const PORT = 8080;
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/', viewsRouter);
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
-
 // Crear servidor y configurar socket.io
 const server = createServer(app);
 const io = new Server(server);
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Middleware para pasar el servidor io a las rutas
+app.use((req, res, next) => {
+    req.io = io;
+    next();
+});
+
+// Rutas
+app.use('/', viewsRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
+
+// Ruta para obtener la lista de productos
+app.get('/api/products/list', async (req, res) => {
+    try {
+        const products = await ProductsManager.getProducts();
+        res.json(products);
+    } catch (error) {
+        console.error('Error retrieving product list:', error.message);
+        res.status(500).send('Error retrieving product list');
+    }
+});
+
+// Socket.IO
 io.on('connection', (socket) => {
     console.log('Nuevo cliente conectado');
+
+    // Enviar lista inicial de productos
+    socket.on('requestInitialProducts', async () => {
+        try {
+            const products = await ProductsManager.getProducts();
+            socket.emit('updateProducts', products);
+        } catch (error) {
+            console.error('Error sending initial product list:', error.message);
+        }
+    });
 
     socket.on('newProduct', async (product) => {
         try {
@@ -56,13 +82,6 @@ io.on('connection', (socket) => {
         }
     });
 });
-
-// Middleware para pasar el servidor io a las rutas
-app.use((req, res, next) => {
-    req.io = io;
-    next();
-});
-
 
 server.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
