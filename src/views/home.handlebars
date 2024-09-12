@@ -9,9 +9,45 @@
     <h1>{{title}}</h1>
     <ul>
       {{#each products}}
-        <li>{{this.title}} - {{this.price}}</li>
+        <li>
+          <strong>{{this.title}}</strong> - ${{this.price}}
+          <a href="/products/{{this._id}}">Ver Detalles</a>
+          <button onclick="addToCart('{{this._id}}')">Agregar al Carrito</button>
+        </li>
       {{/each}}
     </ul>
+
+    <div class="pagination">
+      {{#if hasPrevPage}}
+        <a href="?page={{prevPage}}&limit={{../limit}}">Anterior</a>
+      {{/if}}
+
+      {{#each pages}}
+        <a href="?page={{this}}&limit={{../limit}}">{{this}}</a>
+      {{/each}}
+
+      {{#if hasNextPage}}
+        <a href="?page={{nextPage}}&limit={{../limit}}">Siguiente</a>
+      {{/if}}
+    </div>
+
     <a href="/realtimeproducts">Ver Productos en Tiempo Real</a>
+
+    <script>
+      function addToCart(productId) {
+        fetch(`/api/carts/1/products/${productId}`, {  
+          method: 'POST'
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('No se pudo añadir el producto al carrito');
+          }
+          return response.json();
+        })
+        .then(data => alert('Producto añadido al carrito'))
+        .catch(error => alert(`Error: ${error.message}`));
+      }
+    </script>
+
 </body>
 </html>

@@ -2,6 +2,7 @@ import express from 'express';
 import { engine } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
 import productsRouter from './routes/products.js';
 import cartsRouter from './routes/carts.js';
 import viewsRouter from './routes/viewsRouter.js';
@@ -12,6 +13,13 @@ import { Server } from 'socket.io';
 const app = express();
 const PORT = 8080;
 
+// Configuración de Mongoose
+const mongoURI = 'mongodb://localhost:27017/ecommerce'; 
+mongoose.connect(mongoURI)
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.error('MongoDB connection error:', err));
+
+// Configuración de path y Handlebars
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

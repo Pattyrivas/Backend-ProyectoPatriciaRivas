@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito</title>
+</head>
+<body>
+    <h1>Carrito</h1>
+    <ul>
+      {{#each products}}
+        <li>
+          {{this.product.title}} - {{this.quantity}}
+          <button onclick="updateQuantity('{{this.product._id}}', 1)">Incrementar</button>
+          <button onclick="updateQuantity('{{this.product._id}}', -1)">Decrementar</button>
+          <button onclick="removeFromCart('{{this.product._id}}')">Eliminar</button>
+        </li>
+      {{/each}}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+
+    <script>
+      // Asumiendo que el ID del carrito se pasa desde el backend
+      const cartId = document.body.getAttribute('data-cart-id');
+
+      function updateQuantity(productId, change) {
+        fetch(`/api/carts/${cartId}/products/${productId}?quantity=${change}`, { method: 'PUT' })
+          .then(response => response.json())
+          .then(data => {
+            alert('Cantidad actualizada');
+            // Opcionalmente, recargar la página o actualizar la vista del carrito
+            location.reload();  
+          })
+          .catch(error => console.error('Error:', error));
+      }
+
+      function removeFromCart(productId) {
+        fetch(`/api/carts/${cartId}/products/${productId}`, { method: 'DELETE' })
+          .then(response => response.json())
+          .then(data => {
+            alert('Producto eliminado del carrito');
+            // Opcionalmente, recargar la página o actualizar la vista del carrito
+            location.reload();  /
+          })
+          .catch(error => console.error('Error:', error));
+      }
+    </script>
+</body>
+</html>

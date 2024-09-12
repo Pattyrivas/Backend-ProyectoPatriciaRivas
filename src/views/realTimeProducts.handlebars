@@ -50,7 +50,7 @@
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
                 deleteButton.onclick = () => {
-                    socket.emit('deleteProduct', product.id);
+                    socket.emit('deleteProduct', product._id);
                 };
                 li.appendChild(deleteButton);
                 list.appendChild(li);
