@@ -1,49 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito</title>
 </head>
+
 <body>
-    <h1>Carrito</h1>
-    <ul>
-      {{#each products}}
-        <li>
-          {{this.product.title}} - {{this.quantity}}
-          <button onclick="updateQuantity('{{this.product._id}}', 1)">Incrementar</button>
-          <button onclick="updateQuantity('{{this.product._id}}', -1)">Decrementar</button>
-          <button onclick="removeFromCart('{{this.product._id}}')">Eliminar</button>
-        </li>
-      {{/each}}
-    </ul>
-    <a href="/">Volver a la página principal</a>
+    <nav class="header">
+        <ul>
+            <li>
+                <button class="btn" id="clean-cart">Limpiar carrito</button>
+            </li>
+            <li>
+                <button class="btn" id="back-home">Volver a los productos</button>
+            </li>
+        </ul>
+    </nav>
 
-    <script>
-      // Asumiendo que el ID del carrito se pasa desde el backend
-      const cartId = document.body.getAttribute('data-cart-id');
+    <main class="cart-container" id="cart-container">
+        <h1>Carrito</h1>
+        {{#each products}}
+        <div class="cart-item">
+            <img src={{this.product.thumbnails}} alt="Producto 1" class="product-image">
+            <div class="product-details">
+                <h3>{{this.product.title}}</h3>
+                <p>{{this.product.price}}</p>
+                <div class="quantity-controls">
+                    <button class="btn-decrease" id="btn-decrease" data-id={{this.product._id}}>-</button>
+                    <span class="quantity" id="input-quantity">{{this.quantity}}</span>
+                    <button class="btn-increase" id="btn-increase" data-id={{this.product._id}}>+</button>
+                </div>
+            </div>
+            <button id="remove-item" class="remove-item" data-id={{this.product._id}}>Eliminar</button>
+        </div>
+        {{/each}}
 
-      function updateQuantity(productId, change) {
-        fetch(`/api/carts/${cartId}/products/${productId}?quantity=${change}`, { method: 'PUT' })
-          .then(response => response.json())
-          .then(data => {
-            alert('Cantidad actualizada');
-            // Opcionalmente, recargar la página o actualizar la vista del carrito
-            location.reload();  
-          })
-          .catch(error => console.error('Error:', error));
-      }
-
-      function removeFromCart(productId) {
-        fetch(`/api/carts/${cartId}/products/${productId}`, { method: 'DELETE' })
-          .then(response => response.json())
-          .then(data => {
-            alert('Producto eliminado del carrito');
-            // Opcionalmente, recargar la página o actualizar la vista del carrito
-            location.reload();  /
-          })
-          .catch(error => console.error('Error:', error));
-      }
-    </script>
+        <div class="total">
+            <h2>Total: $<span id="cart-price">0</span></h2>
+        </div>
+    </main>
 </body>
+
 </html>
+<script src="/js/cart.js"></script>

@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos en Tiempo Real</title>
 </head>
+
 <body>
-    <h1>Productos en Tiempo Real</h1>
-    <form id="productForm">
-        <input type="text" id="title" placeholder="Title" required>
-        <input type="text" id="description" placeholder="Description" required>
-        <input type="text" id="code" placeholder="Code" required>
-        <input type="number" id="price" placeholder="Price" required>
-        <input type="number" id="stock" placeholder="Stock" required>
-        <input type="text" id="category" placeholder="Category" required>
-        <button type="submit">Add Product</button>
-    </form>
-    <ul id="productList">
-        <!-- Productos se mostrarán aquí -->
-    </ul>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
+    <main>
+        <h1>Productos en Tiempo Real</h1>
+        <div class="form-container">
+            <h2>Agregar stock</h2>
+            <form id="products-form" enctype="multipart/form-data">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="title" required>
+                <label for="code">Code</label>
+                <input type="text" id="code" name="code" required>
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" required>
+                <label for="price">Price</label>
+                <input type="number" id="price" name="price" required>
+                <label for="stock">Stock</label>
+                <input type="number" id="stock" name="stock" required>
+                <label for="category">Category</label>
+                <input type="text" id="category" name="category" required>
+                <label for="thumbnail">Imagenes</label>
+                <input type="file" id="thumbnails" name="thumbnails" accept="image/*" multiple>
+                <button type="submit">Agregar</button>
+            </form>
+        </div>
 
-        // Solicitar la lista inicial de productos al cargar la página
-        socket.emit('requestInitialProducts');
+        <div id="container-products" class="container">
+            {{#each products}}
+            <div class="card-product">
+                <header class="card-header">
+                    <div class="img-container">
+                        {{#each thumbnails}}
+                        <img src={{this}} alt={{this.title}}>
+                        {{/each}}
+                    </div>
+                </header>
+                <div class="card-content">
+                    <h3 class="title-product">{{this.title}}</h3>
+                    <p class="description-product">{{this.description}}</p>
+                    <p class="price-product">${{this.price}}</p>
+                </div>
+                <footer class="card-footer">
+                    <button id="btn-delete" class="btn-delete" data-id={{this._id}}>Eliminar</button>
+                </footer>
+            </div>
+            {{/each}}
+        </div>
 
-        // Agregar un producto
-        document.getElementById('productForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newProduct = {
-                title: document.getElementById('title').value,
-                description: document.getElementById('description').value,
-                code: document.getElementById('code').value,
-                price: parseFloat(document.getElementById('price').value),
-                stock: parseInt(document.getElementById('stock').value),
-                category: document.getElementById('category').value
-            };
-            socket.emit('newProduct', newProduct);
-        });
-
-        // Actualizar la lista de productos cuando se recibe una actualización
-        socket.on('updateProducts', (products) => {
-            const list = document.getElementById('productList');
-            list.innerHTML = '';
-            products.forEach(product => {
-                const li = document.createElement('li');
-                li.textContent = `${product.title} - ${product.price}`;
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Delete';
-                deleteButton.onclick = () => {
-                    socket.emit('deleteProduct', product._id);
-                };
-                li.appendChild(deleteButton);
-                list.appendChild(li);
-            });
-        });
-    </script>
+    </main>
 </body>
+
 </html>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.js"></script>

@@ -1,6 +1,5 @@
 [
   {
-    "id": "1",
     "title": "Collar Estella",
     "description": "Hermoso collar con diseño de estrellas",
     "code": "COLLAR001",
@@ -13,7 +12,7 @@
     ]
   },
   {
-    "id": "2",
+    "id":"66e55974cad68a6ee320e5c9",
     "title": "Set Tiffany",
     "description": "Set de joyas estilo Tiffany",
     "code": "SET001",
@@ -26,7 +25,6 @@
     ]
   },
   {
-    "id": "3",
     "title": "Aros Trinidad",
     "description": "Elegantes aros con diseño de trinidad",
     "code": "AROS001",
@@ -39,7 +37,6 @@
     ]
   },
   {
-    "id": "4",
     "title": "Aros Corazón",
     "description": "Aros con diseño de corazón",
     "code": "AROS002",
@@ -52,7 +49,6 @@
     ]
   },
   {
-    "id": "5",
     "title": "Collar Mariposas",
     "description": "Collar con diseño de mariposas",
     "code": "COLLAR002",
@@ -65,7 +61,6 @@
     ]
   },
   {
-    "id": "6",
     "title": "Set Estrella",
     "description": "Set de joyas con diseño de estrellas",
     "code": "SET002",
@@ -78,7 +73,6 @@
     ]
   },
   {
-    "id": "7",
     "title": "Collar Perlas",
     "description": "Elegante collar de perlas",
     "code": "COLLAR003",
@@ -91,7 +85,6 @@
     ]
   },
   {
-    "id": "8",
     "title": "Collar Cupido",
     "description": "Collar con diseño de cupido",
     "code": "COLLAR004",
@@ -104,7 +97,6 @@
     ]
   },
   {
-    "id": "9",
     "title": "Set Aros Corazonada",
     "description": "Set de aros con diseño de corazón",
     "code": "SET003",
@@ -117,7 +109,6 @@
     ]
   },
   {
-    "id": "10",
     "title": "Collar Candado",
     "description": "Collar con diseño de candado",
     "code": "COLLAR005",
@@ -130,7 +121,6 @@
     ]
   },
   {
-    "id": "11",
     "title": "Collar Luna",
     "description": "Collar con diseño de luna",
     "code": "COLLAR006",
@@ -140,6 +130,90 @@
     "category": "collar",
     "thumbnails": [
       "https://example.com/luna.jpg"
+    ]
+  },
+  {
+    "title": "Aros Luna",
+    "description": "Aros con diseño de luna creciente",
+    "code": "AROS003",
+    "price": 5.99,
+    "status": true,
+    "stock": 6,
+    "category": "aros",
+    "thumbnails": [
+      "https://example.com/aros_luna.jpg"
+    ]
+  },
+  {
+    "title": "Set Mariposas",
+    "description": "Set de joyas con diseño de mariposas",
+    "code": "SET004",
+    "price": 11.99,
+    "status": true,
+    "stock": 9,
+    "category": "set",
+    "thumbnails": [
+      "https://example.com/set_mariposas.jpg"
+    ]
+  },
+  {
+    "title": "Collar Sol",
+    "description": "Collar con diseño de sol radiante",
+    "code": "COLLAR007",
+    "price": 15.99,
+    "status": true,
+    "stock": 4,
+    "category": "collar",
+    "thumbnails": [
+      "https://example.com/collar_sol.jpg"
+    ]
+  },
+  {
+    "title": "Aros Estrella",
+    "description": "Aros con diseño de estrellas doradas",
+    "code": "AROS004",
+    "price": 7.99,
+    "status": true,
+    "stock": 7,
+    "category": "aros",
+    "thumbnails": [
+      "https://example.com/aros_estrella.jpg"
+    ]
+  },
+  {
+    "title": "Set Cupido",
+    "description": "Set de joyas con diseño de cupido",
+    "code": "SET005",
+    "price": 14.99,
+    "status": true,
+    "stock": 6,
+    "category": "set",
+    "thumbnails": [
+      "https://example.com/set_cupido.jpg"
+    ]
+  },
+  {
+    "title": "Collar Corazón",
+    "description": "Collar con diseño de corazón dorado",
+    "code": "COLLAR008",
+    "price": 9.99,
+    "status": true,
+    "stock": 10,
+    "category": "collar",
+    "thumbnails": [
+      "https://example.com/collar_corazon.jpg"
+    ]
+  },
+  {
+    "title": "Aros Cupido",
+    "description": "Aros con diseño de cupido en plata",
+    "code": "AROS005",
+    "price": 6.99,
+    "status": true,
+    "stock": 8,
+    "category": "aros",
+    "thumbnails": [
+      "https://example.com/aros_cupido.jpg"
     ]
   }
 ]

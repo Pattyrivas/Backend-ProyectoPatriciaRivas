@@ -1,53 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos</title>
 </head>
+
 <body>
-    <h1>{{title}}</h1>
-    <ul>
-      {{#each products}}
-        <li>
-          <strong>{{this.title}}</strong> - ${{this.price}}
-          <a href="/products/{{this._id}}">Ver Detalles</a>
-          <button onclick="addToCart('{{this._id}}')">Agregar al Carrito</button>
+
+ <nav class="header">
+    <ul class="nav-list">
+        <li class="nav-item cart-info">
+            <span class="cart-icon">🛒</span>
+            <a href="/cart" class="btn btn-cart" id="cart-view">Ver carrito</a>
+            <span class="cart-count">{{numCarts}}</span>
         </li>
-      {{/each}}
     </ul>
+</nav>
 
-    <div class="pagination">
-      {{#if hasPrevPage}}
-        <a href="?page={{prevPage}}&limit={{../limit}}">Anterior</a>
-      {{/if}}
-
-      {{#each pages}}
-        <a href="?page={{this}}&limit={{../limit}}">{{this}}</a>
-      {{/each}}
-
-      {{#if hasNextPage}}
-        <a href="?page={{nextPage}}&limit={{../limit}}">Siguiente</a>
-      {{/if}}
-    </div>
-
-    <a href="/realtimeproducts">Ver Productos en Tiempo Real</a>
-
-    <script>
-      function addToCart(productId) {
-        fetch(`/api/carts/1/products/${productId}`, {  
-          method: 'POST'
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('No se pudo añadir el producto al carrito');
-          }
-          return response.json();
-        })
-        .then(data => alert('Producto añadido al carrito'))
-        .catch(error => alert(`Error: ${error.message}`));
-      }
-    </script>
-
+  <h1>Pazari Store</h1>
+  <div class="container" id="container-home"></div>
+  <div class="pagination-container">
+    <button class="btn btn-primary" id="btn-prev">Anterior</button>
+    <span>Página <span id="current-page">{{page}}</span> de {{totalPages}}</span>
+    <button class="btn btn-primary" id="btn-next">Siguiente</button>
+  </div>
 </body>
+
 </html>
+<script src="/js/home.js"></script>
+<script src="/js/cart.js"></script>
